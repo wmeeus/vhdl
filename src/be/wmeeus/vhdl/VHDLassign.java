@@ -12,7 +12,7 @@ public class VHDLassign extends VHDLnode {
 	
 	public String toString() {
 		String r = PP.I + lhs;
-		if (comment!=null) r = "\n" + PP.C + comment + "\n" + r;
+		if (comment!=null) r = "\n" + VHDLcomment.pp(comment) + "\n" + r;
 		if (lhs instanceof VHDLvariable) {
 			r += " := ";
 		} else {

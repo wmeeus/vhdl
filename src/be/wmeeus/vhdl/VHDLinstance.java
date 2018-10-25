@@ -19,7 +19,7 @@ public class VHDLinstance extends VHDLnode {
 	
 	public String toString() {
 		String r = "\n" + PP.I + name + ": entity work." + entity.name;
-		if (comment!=null) r = "\n" + PP.C + comment + r;
+		if (comment!=null) r = "\n" + VHDLcomment.pp(comment) + r;
 		if (arch!=null) {
 			r += "(" + arch.name + ")";
 		}

@@ -8,6 +8,10 @@ public class VHDLcomment extends VHDLnode {
 	}
 	
 	public String toString() {
-		return PP.C + comment;
+		return pp(comment);
+	}
+	
+	public static String pp(String c) {
+		return PP.C + c.replaceAll("\n", "\n"+PP.C);
 	}
 }
