@@ -31,12 +31,12 @@ public class VHDLvalue extends VHDLnode implements /*Comparator<VHDLvalue> ,*/ C
 	}
 
 	public VHDLvalue(int i) {
-		value = new Integer(i);
+		value = Integer.valueOf(i);
 		type = VHDLinteger.INTEGER;
 	}
 
 	public VHDLvalue(boolean b) {
-		value = new Boolean(b);
+		value = Boolean.valueOf(b);
 		type = VHDLboolean.BOOLEAN;
 	}
 	
@@ -44,6 +44,10 @@ public class VHDLvalue extends VHDLnode implements /*Comparator<VHDLvalue> ,*/ C
 		VHDLnode result = null;
 		// try to determine the nature of what's in the string, return appropriate node
 		// TODO put this into a proper parser, in a separate class
+		if (s.trim().startsWith("\"")) {
+			// TODO remove quotes from string as well
+			return new VHDLvalue(s.trim().replaceAll("\"", ""), VHDLstring.STRING);
+		}
 		try {
 			int i = Integer.parseInt(s);
 			result = new VHDLvalue(i);
