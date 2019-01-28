@@ -49,4 +49,14 @@ public class VHDLstd_logic_vector extends VHDLtype {
 		return null;
 	}
 
+	static Hashtable<Object, VHDLstd_logic_vector> defvectors = new Hashtable<Object, VHDLstd_logic_vector>();
+	public static VHDLtype getVector(int i) {
+		if (i == 1) return VHDLstd_logic.STD_LOGIC;
+		if (defvectors.contains(Integer.valueOf(i))) 
+			return defvectors.get(Integer.valueOf(i));
+		VHDLstd_logic_vector vi =new VHDLstd_logic_vector(i);
+		defvectors.put(Integer.valueOf(i), vi);
+		return vi;
+	}
+	
 }
