@@ -15,6 +15,9 @@ public class VHDLinstance extends VHDLnode {
 	
 	public void map(String s, VHDLnode n) {
 		genportmap.put(s, n);
+		if (!entity.has(s)) {
+			System.err.println("*Warning* map: port " + s + " not found on instance " + name + " of " + entity.name);;
+		}
 	}
 	
 	public String toString() {
