@@ -40,6 +40,7 @@ public class VHDLentity extends VHDLnode {
 	}
 
 	public void addPackage(String s) throws VHDLexception {
+		if (s == null) return;
 		s = s.trim();
 		if (s.endsWith(";")) s = s.substring(0, s.length()-1);
 		int dot = s.indexOf(".");
