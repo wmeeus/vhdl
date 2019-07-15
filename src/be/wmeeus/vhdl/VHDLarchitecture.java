@@ -2,13 +2,38 @@ package be.wmeeus.vhdl;
 import java.util.*;
 import be.wmeeus.util.PP;
 
+/**
+ * Class VHDLarchitecture describes a VHDL architecture.
+ * @author Wim Meeus
+ *
+ */
 public class VHDLarchitecture extends VHDLnode {
-
+	/**
+	 * The entity in of which this is an architecture
+	 */
 	VHDLentity entity = null;
+	
+	/**
+	 * The list of VHDL symbols in this architecture
+	 */
 	ArrayList<VHDLsymbol> symbols = new ArrayList<VHDLsymbol>();
+	
+	/**
+	 * The symbol table of this architecture
+	 */
 	VHDLsymbolTable symboltable   = null;
+	
+	/**
+	 * The architecture body
+	 */
 	ArrayList<VHDLnode> body      = new ArrayList<VHDLnode>();
 
+	/**
+	 * Construct a VHDL architecture
+	 * @param n the architecture name
+	 * @param e the entity of which this is an architecture
+	 * @throws VHDLexception
+	 */
 	public VHDLarchitecture(String n, VHDLentity e) throws VHDLexception {
 		name = n;
 		entity = e;
@@ -18,6 +43,11 @@ public class VHDLarchitecture extends VHDLnode {
 		}
 	}
 
+	/**
+	 * Add a symbol to or set the body of this architecture
+	 * @param n the symbol or body
+	 * @throws VHDLexception
+	 */
 	public void add(VHDLnode n) throws VHDLexception {
 		if (n instanceof VHDLsymbol) {
 			symbols.add((VHDLsymbol)n);
@@ -27,6 +57,9 @@ public class VHDLarchitecture extends VHDLnode {
 		}
 	}
 
+	/**
+	 * Returns a String representation of this architecture = VHDL code
+	 */
 	public String toString() {
 		String r = "";
 		if (!VHDLentity.includearchitecture) 
@@ -47,10 +80,24 @@ public class VHDLarchitecture extends VHDLnode {
 		return r + "\nend " + name + ";\n";
 	}
 
+	/**
+	 * Get a symbol from this architecture 
+	 * @param s the symbol name
+	 * @return the requested symbol, or null if no symbol with the requested name is present in this
+	 *   architecture
+	 */
 	public VHDLsymbol get(String s) {
 		return symboltable.get(s);
 	}
 
+	/**
+	 * Connect a port of instance i in this architecture with the port of the same name on the
+	 * entity of which this is the architecture 
+	 * @param i the instance
+	 * @param p the port name
+	 * @return the port
+	 * @throws VHDLexception
+	 */
 	public VHDLsymbol up(VHDLinstance i, String p) throws VHDLexception {
 		VHDLsymbol s = i.entity.get(p);
 		if (s==null) throw new VHDLexception("*VHDLsymbol::up* Cannot find port " + p + " on instance " + i.getName() + "(" + i.entity.name + ")");
@@ -59,6 +106,15 @@ public class VHDLarchitecture extends VHDLnode {
 		return s;
 	}
 
+	/**
+	 * Connect a port of instance i in this architecture with the port of the same name on the
+	 * entity of which this is the architecture 
+	 * @param i the instance
+	 * @param p the port name
+	 * @param t the VHDL type of the port
+	 * @return the port
+	 * @throws VHDLexception
+	 */
 	public VHDLsymbol up(VHDLinstance i, String p, VHDLtype t) throws VHDLexception {
 		VHDLsymbol s = i.entity.get(p);
 		if (s==null) throw new VHDLexception("*VHDLsymbol::up* Cannot find port " + p + " on instance " + i.getName() + "(" + i.entity.name + ")");
@@ -72,6 +128,18 @@ public class VHDLarchitecture extends VHDLnode {
 		return s;
 	}
 
+	/**
+	 * Connect a port of instance i in this architecture with a port on the entity of which this
+	 * is the architecture. The port name on the entity gets a prefix or infix so ports with the 
+	 * same name on multiple instances can connect with different ports on this entity.
+	 * @param i the instance
+	 * @param p the port name
+	 * @param infix the prefix/infix to add. If the port name starts with a single character followed
+	 *   by an underscore (so p=='p_restOfTheName'), the infix is placed after the underscore
+	 *   (so the name becomes 'p_<infix>_restOfTheName').
+	 * @return the (potentially new) port on the entity of which this is the architecture
+	 * @throws VHDLexception
+	 */
 	public VHDLsymbol up(VHDLinstance i, String p, String infix) throws VHDLexception {
 		VHDLsymbol s = i.entity.get(p);
 		if (s==null) throw new VHDLexception("*VHDLsymbol::up* Cannot find port " + p + " on instance " + i.getName() + "(" + i.entity.name + ")");
@@ -98,6 +166,15 @@ public class VHDLarchitecture extends VHDLnode {
 		return ns;
 	}
 
+	/**
+	 * Connect a port of instance i in this architecture with a port on the entity of which this
+	 * is the architecture.
+	 * @param i The instance in this architecture
+	 * @param p The port name on the instance
+	 * @param n The port name on the entity of which this is the architecture
+	 * @return The port on the entity of which this is the architecture
+	 * @throws VHDLexception
+	 */
 	public VHDLsymbol upname(VHDLinstance i, String p, String n) throws VHDLexception {
 		VHDLsymbol s = i.entity.get(p);
 		if (s==null) throw new VHDLexception("*VHDLsymbol::upname* Cannot find port " + p + " on instance " + i.getName() + "(" + i.entity.name + ")");
@@ -119,6 +196,19 @@ public class VHDLarchitecture extends VHDLnode {
 		return ns;
 	}
 
+	/**
+	 * Connect a port of instance i in this architecture with a port on the entity of which this
+	 * is the architecture. The port name on the entity gets a prefix or infix so ports with the 
+	 * same name on multiple instances can connect with different ports on this entity.
+	 * @param i the instance
+	 * @param p the port name
+	 * @param infix the prefix/infix to add. If the port name starts with a single character followed
+	 *   by an underscore (so p=='p_restOfTheName'), the infix is placed after the underscore
+	 *   (so the name becomes 'p_<infix>_restOfTheName').
+	 * @param t the VHDL type
+	 * @return the (potentially new) port on the entity of which this is the architecture
+	 * @throws VHDLexception
+	 */
 	public VHDLsymbol up(VHDLinstance i, String p, String infix, VHDLtype t) throws VHDLexception {
 		VHDLsymbol s = i.entity.get(p);
 		if (s==null) throw new VHDLexception("*VHDLsymbol::up* Cannot find port " + p + " on instance " + i.getName() + "(" + i.entity.name + ")");
@@ -145,6 +235,13 @@ public class VHDLarchitecture extends VHDLnode {
 		return ns;
 	}
 
+	/**
+	 * Connect a port of an instance in this architecture to a local signal
+	 * @param i the instance
+	 * @param p the port name
+	 * @return the local signal
+	 * @throws VHDLexception
+	 */
 	public VHDLsymbol mapLocal(VHDLinstance i, String p) throws VHDLexception {
 		if (i==null) throw new VHDLexception("Instance is null");
 		if (p==null) throw new VHDLexception("Signal is null");
@@ -166,6 +263,14 @@ public class VHDLarchitecture extends VHDLnode {
 		return s;
 	}
 
+	/**
+	 * Connect a port of an instance in this architecture to a local signal
+	 * @param i the instance
+	 * @param p the port name
+	 * @param sname the signal name
+	 * @return the local signal
+	 * @throws VHDLexception
+	 */
 	public VHDLsymbol mapLocal(VHDLinstance i, String p, String sname) throws VHDLexception {
 		VHDLsymbol s = get(sname);
 		if (s==null) {
@@ -181,6 +286,15 @@ public class VHDLarchitecture extends VHDLnode {
 		return s;
 	}
 
+	/**
+	 * Connect a port of an instance in this architecture to a local signal
+	 * @param i the instance
+	 * @param p the port name
+	 * @param sname the signal name
+	 * @param t the VHDL type
+	 * @return the local signal
+	 * @throws VHDLexception
+	 */
 	public VHDLsymbol mapLocal(VHDLinstance i, String p, String sname, VHDLtype t) throws VHDLexception {
 		VHDLsymbol s = get(sname);
 		if (s==null) {
@@ -196,6 +310,10 @@ public class VHDLarchitecture extends VHDLnode {
 		return s;
 	}
 
+	/**
+	 * Determines and returns the maximum length of a symbol (signal) name in this architecture 
+	 * @return the maximum length of a symbol (signal) name in this architecture
+	 */
 	public int maxSymbolLength() {
 		int l = 0;
 		for (VHDLsymbol s: symbols)
