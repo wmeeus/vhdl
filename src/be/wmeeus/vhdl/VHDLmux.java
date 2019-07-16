@@ -2,7 +2,21 @@ package be.wmeeus.vhdl;
 
 import java.util.*;
 
+/**
+ * Class VHDLmux represents a multiplexer in VHDL
+ * @author Wim Meeus
+ *
+ */
 public class VHDLmux {
+	/**
+	 * Build and return a one-hot multiplexer
+	 * @param a list of data inputs
+	 * @param s list of selection inputs
+	 * @param y multiplexer output
+	 * @param arch the architecture in which this multiplexer is instantiated
+	 * @return the multiplexer
+	 * @throws VHDLexception
+	 */
 	public static VHDLnode onehotmux(ArrayList<VHDLnode> a, ArrayList<VHDLnode> s, VHDLsymbol y, VHDLarchitecture arch) throws VHDLexception {
 		if (a.size()!=s.size()) {
 			throw new VHDLexception("Onehot mux: number of inputs and numbber of selection bits differs");

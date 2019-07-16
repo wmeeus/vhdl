@@ -4,16 +4,36 @@ import java.util.Hashtable;
 
 import be.wmeeus.util.PP;
 
+/**
+ * Class VHDLgeneric contains a generic in VHDL
+ * @author Wim Meeus
+ *
+ */
 public class VHDLgeneric extends VHDLsymbol {
-
+	/**
+	 * Default value of this generic
+	 */
 	VHDLnode defaultvalue = null;
 	
+	/**
+	 * Construct a generic
+	 * @param n generic name
+	 * @param t generic type
+	 * @throws VHDLexception
+	 */
 	public VHDLgeneric(String n, VHDLtype t) throws VHDLexception {
 		name = n;
 		type = t;
 		VHDLsymbol.add(this);
 	}
 	
+	/**
+	 * Construct a generic
+	 * @param n generic name
+	 * @param t generic type
+	 * @param d default value
+	 * @throws VHDLexception
+	 */
 	public VHDLgeneric(String n, VHDLtype t, VHDLnode d) throws VHDLexception {
 		name = n;
 		type = t;
@@ -21,13 +41,25 @@ public class VHDLgeneric extends VHDLsymbol {
 		VHDLsymbol.add(this);
 	}
 	
+	/**
+	 * Construct a generic
+	 * @param n generic name
+	 * @param t generic type
+	 * @param d default value
+	 * @throws VHDLexception
+	 */
 	public VHDLgeneric(String n, VHDLtype t, int d) throws VHDLexception {
 		name = n;
 		type = t;
 		defaultvalue = new VHDLvalue(d);
 		VHDLsymbol.add(this);
 	}
-	
+
+	/**
+	 * Parse a generic from a String
+	 * @param s the input String, format <name> <type> [:= <default_value>]
+	 * @throws VHDLexception
+	 */
 	public VHDLgeneric(String s) throws VHDLexception {
 		// parse generic from string
 		s = s.trim();
@@ -48,6 +80,13 @@ public class VHDLgeneric extends VHDLsymbol {
 		VHDLsymbol.add(this);
 	}
 	
+	/**
+	 * Construct a generic
+	 * @param n generic name
+	 * @param t generic type
+	 * @param d default value
+	 * @throws VHDLexception
+	 */
 	public VHDLgeneric(String n, String t, String d) throws VHDLexception {
 		name = n.trim();
 		type = VHDLtype.getType(t);
@@ -58,7 +97,11 @@ public class VHDLgeneric extends VHDLsymbol {
 		}
 		VHDLsymbol.add(this);
 	}
-	
+
+	/**
+	 * Returns the default value
+	 * @return the default value
+	 */
 	public VHDLnode getDefault() {
 		return defaultvalue;
 	}

@@ -3,16 +3,42 @@ import java.util.*;
 
 import be.wmeeus.util.PP;
 
+/**
+ * Class VHDLinstance contains an instance in VHDL
+ * @author Wim Meeus
+ *
+ */
 public class VHDLinstance extends VHDLnode {
+	/**
+	 * The architecture in which this instance is included
+	 */
 	VHDLarchitecture arch = null;
+	
+	/**
+	 * The instantiated entity
+	 */
 	VHDLentity entity = null;
+	
+	/**
+	 * The mapping table of generics and ports
+	 */
 	Hashtable<String, VHDLnode> genportmap = new Hashtable<String, VHDLnode>();
 	
+	/**
+	 * Construct an instance
+	 * @param n the instance name
+	 * @param e the instantiated entity
+	 */
 	public VHDLinstance(String n, VHDLentity e) {
 		name = n;
 		entity = e;
 	}
 	
+	/**
+	 * Map a generic or a port
+	 * @param s the name of the mapped generic or port
+	 * @param n the signal, port, generic, ... to map to the generic or port
+	 */
 	public void map(String s, VHDLnode n) {
 		genportmap.put(s, n);
 		if (!entity.has(s)) {
@@ -20,7 +46,10 @@ public class VHDLinstance extends VHDLnode {
 			Thread.dumpStack();
 		}
 	}
-	
+
+	/**
+	 * Returns a String representation of this instance
+	 */
 	public String toString() {
 		String r = "\n" + PP.I + name + ": entity work." + entity.name;
 		if (comment!=null) r = "\n" + VHDLcomment.pp(comment) + r;
@@ -75,18 +104,38 @@ public class VHDLinstance extends VHDLnode {
 		return r;
 	}
 	
+	/**
+	 * Find a generic or port of the instantiated entity
+	 * @param s the name of the generic or port 
+	 * @return the requested generic or port, or null if the entity doesn't contain a generic or
+	 *   port with the indicated name.
+	 */
 	public VHDLsymbol get(String s) {
 		return entity.get(s);
 	}
 	
+	/**
+	 * Indicates whether the entity contains a generic or port with a particular name
+	 * @param s the name of the generic or port
+	 * @return true if the entity contains a generic or port with a particular name
+	 */
 	public boolean has(String s) {
 		return (entity.get(s) != null);
 	}
 
+	/**
+	 * Returns the instantiated entity
+	 * @return the instantiated entity
+	 */
 	public VHDLentity getEntity() {
 		return entity;
 	}
 	
+	/**
+	 * Gets an entry from the generic/port map table
+	 * @param s the generic or port name
+	 * @return the corresponding symbol 
+	 */
 	public VHDLnode getmap(String s) {
 		return genportmap.get(s);
 	}
