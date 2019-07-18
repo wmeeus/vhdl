@@ -1,19 +1,66 @@
 package be.wmeeus.vhdl;
 import java.util.*;
 
-public class VHDLvalue extends VHDLnode implements /*Comparator<VHDLvalue> ,*/ Comparable<VHDLvalue> {
+/**
+ * Class VHDLvalue represents a fixed value in VHDL
+ * @author Wim Meeus
+ *
+ */
+public class VHDLvalue extends VHDLnode implements Comparable<VHDLvalue> {
+	/**
+	 * The value
+	 */
 	Object value = null;
+	
+	/**
+	 * The data type od this value
+	 */
 	VHDLtype type = null;
 
+	/**
+	 * Static integer 0
+	 */
 	public static final VHDLvalue ZERO    = new VHDLvalue(0);
+	
+	/**
+	 * Static integer 1
+	 */
 	public static final VHDLvalue ONE     = new VHDLvalue(1);
+	
+	/**
+	 * Static boolean true
+	 */
 	public static final VHDLvalue TRUE    = new VHDLvalue(true);
+	
+	/**
+	 * Static boolean false
+	 */
 	public static final VHDLvalue FALSE   = new VHDLvalue(false);
+	
+	/**
+	 * Static std_logic '0'
+	 */
 	public static final VHDLvalue L0      = new VHDLvalue("'0'", VHDLstd_logic.STD_LOGIC);
+	
+	/**
+	 * Static std_logic '1'
+	 */
 	public static final VHDLvalue L1      = new VHDLvalue("'1'", VHDLstd_logic.STD_LOGIC);
+	
+	/**
+	 * Static "others 0"
+	 */
 	public static final VHDLvalue OTHERS0 = new VHDLvalue("(others => '0')", VHDLstd_logic_vector.STD_LOGIC_VECTOR);
+	
+	/**
+	 * Static "others don't care"
+	 */
 	public static final VHDLvalue OTHERSDC = new VHDLvalue("(others => '-')", VHDLstd_logic_vector.STD_LOGIC_VECTOR);
 
+	/**
+	 * Construct a value of a given type
+	 * @param o either the type (object of class VHDLtype) or the value (object of any other class)
+	 */
 	public VHDLvalue(Object o) {
 		// create a value of said type
 		if (o instanceof VHDLtype) {
@@ -25,21 +72,42 @@ public class VHDLvalue extends VHDLnode implements /*Comparator<VHDLvalue> ,*/ C
 		value = o;
 	}
 
+	/**
+	 * Construct a value
+	 * @param o the value
+	 * @param t the type
+	 */
 	public VHDLvalue(Object o, VHDLtype t) {
 		value = o;
 		type = t;
 	}
 
+	/**
+	 * Construct an integer value
+	 * @param i the value
+	 */
 	public VHDLvalue(int i) {
 		value = Integer.valueOf(i);
 		type = VHDLinteger.INTEGER;
 	}
 
+	/**
+	 * Construct a boolean value
+	 * @param b the value
+	 */
 	public VHDLvalue(boolean b) {
 		value = Boolean.valueOf(b);
 		type = VHDLboolean.BOOLEAN;
 	}
-	
+
+	/**
+	 * Construct and return a value from a String
+	 * @param s the input String. If the input is enclosed in double quotes, a String value is 
+	 *   constructed. Otherwise, the String will be parsed for an integer value.
+	 * @return the value
+	 * @throws VHDLexception if the input is neither enclosed in double quotes or can be parsed
+	 *   as an integer.
+	 */
 	public static VHDLnode getValue(String s) throws VHDLexception {
 		VHDLnode result = null;
 		// try to determine the nature of what's in the string, return appropriate node
@@ -58,14 +126,25 @@ public class VHDLvalue extends VHDLnode implements /*Comparator<VHDLvalue> ,*/ C
 		return result;
 	}
 
+	/**
+	 * Returns the value
+	 * @return the value
+	 */
 	public Object get() {
 		return value;
 	}
 
+	/**
+	 * Returns the data type
+	 * @return the data type
+	 */
 	public VHDLtype getType() {
 		return type;
 	}
 
+	/**
+	 * Returns a String representation of this value
+	 */
 	public String toString() {
 		if (type instanceof VHDLstd_logic_vector || type instanceof VHDLstring) {
 			if (value instanceof String) {

@@ -2,21 +2,54 @@ package be.wmeeus.vhdl;
 
 import java.util.Hashtable;
 
+/**
+ * Class VHDLsubrange represents an index or a range of an instance of an array datatype. 
+ * @author Wim Meeus
+ *
+ */
 public class VHDLsubrange extends VHDLnode {
+	/**
+	 * Base node (signal, variable, port...)
+	 */
 	VHDLnode base = null;
+	
+	/**
+	 * The range (in case of a range). If range is used, index must be null.
+	 */
 	VHDLrange range = null;
+	
+	/**
+	 * Index (in case of a single index). If index is used, range must be null
+	 */
 	VHDLnode index = null;
 	
+	/**
+	 * Construct a subrange
+	 * @param n the base node
+	 * @param s
+	 * @param e
+	 */
 	public VHDLsubrange(VHDLnode n, int s, int e) {
 		base = n;
 		range = new VHDLrange(s, e);
 	}
 	
+	/**
+	 * Construct a sub-index
+	 * @param n the base node
+	 * @param s the index
+	 */
 	public VHDLsubrange(VHDLnode n, int s) {
 		base = n;
 		index = new VHDLvalue(s);
 	}
 	
+	/**
+	 * Construct a subnode or a sub-index
+	 * @param n the base node
+	 * @param s the range or index. If s is of class VHDLrange, a range is assumed. Otherwise,
+	 *   an index is assumed.
+	 */
 	public VHDLsubrange(VHDLnode n, VHDLnode s) {
 		base = n;
 		if (s instanceof VHDLrange) {
@@ -29,9 +62,9 @@ public class VHDLsubrange extends VHDLnode {
 	/**
 	 * Private constructor, should only be used for copy operations. Either r or s must be null.
 	 * 
-	 * @param n
-	 * @param r
-	 * @param s
+	 * @param n the base node
+	 * @param r the range
+	 * @param s the index
 	 */
 	private VHDLsubrange(VHDLnode n, VHDLrange r, VHDLnode s) {
 		base = n;

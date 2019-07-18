@@ -2,25 +2,57 @@ package be.wmeeus.vhdl;
 
 import java.util.Hashtable;
 
+/**
+ * Class VHDLsubarray represents an array datatype that is derived from another array datatype by
+ * setting explicit array bounds. 
+ * @author Wim Meeus
+ *
+ */
 public class VHDLsubarray extends VHDLtype {
+	/**
+	 * Base datatype
+	 */
 	VHDLtype base = null;
+	
+	/**
+	 * Array range
+	 */
 	VHDLrange range = null;
 	
+	/**
+	 * Constructs a sub-array datatype
+	 * @param n the base array type
+	 * @param s start of the range
+	 * @param e end of the range
+	 */
 	public VHDLsubarray(VHDLtype n, int s, int e) {
 		base = n;
 		range = new VHDLrange(s, e);
 	}
 	
+	/**
+	 * Constructs a sub-array datatype
+	 * @param n the base array type
+	 * @param s the number of elements in the range. The range is (s-1) downto 0
+	 */
 	public VHDLsubarray(VHDLtype n, int s) {
 		base = n;
 		range = new VHDLrange(s);
 	}
 	
+	/**
+	 * Constructs a sub-array datatype
+	 * @param t the base array type
+	 * @param n the range
+	 */
 	private VHDLsubarray(VHDLtype t, VHDLrange n) {
 		base = t;
 		range = n;
 	}
 	
+	/**
+	 * Returns a String representation of this sub-array type
+	 */
 	public String toString() {
 		return base.name + "(" + range + ")";
 	}

@@ -2,11 +2,25 @@ package be.wmeeus.vhdl;
 
 import java.util.*;
 
+/**
+ * Class VHDLsymbolTable represents a symbol table in VHDL. A symbol table links symbol names
+ * to objects. 
+ * 
+ * @author Wim Meeus
+ *
+ */
 public class VHDLsymbolTable {
-
+	/**
+	 * The "parent" symbol table
+	 */
 	VHDLsymbolTable parent = null;
+	
+	/**
+	 * The table itself
+	 */
 	Hashtable<String, VHDLsymbol> table = null;
 
+	
 	boolean is_entity = false;
 	boolean is_arch   = false;
 	boolean is_proc   = false;
@@ -34,6 +48,11 @@ public class VHDLsymbolTable {
 		if (!isset) throw new VHDLexception("*VHDLsymbolTable:setType* invalid type " + h);
 	}
 
+	/**
+	 * Adds a symbol to the symbol table
+	 * @param s the symbol to add
+	 * @throws VHDLexception
+	 */
 	public void add(VHDLsymbol s) throws VHDLexception {
 		// check hierarchy: ports and generics in entity, signals in architecture, variables in process... 
 		if ((s instanceof VHDLport) || (s instanceof VHDLgeneric)) {
@@ -65,11 +84,20 @@ public class VHDLsymbolTable {
 		
 	}
 
+	/**
+	 * Adds a symbol to the symbol table
+	 * @param s the symbol to add
+	 */
 	private void __add(VHDLsymbol s) {
 		if (table==null) table = new Hashtable<String, VHDLsymbol>();
 		table.put(s.name, s);
 	}
 
+	/**
+	 * Gets a symbol from the symbol table
+	 * @param s the name of the symbol to get
+	 * @return the requested symbol, or null if a symbol with the given name wasn't found 
+	 */
 	public VHDLsymbol get(String s) {
 		VHDLsymbol r = null;
 		if (table!=null) r = table.get(s);
@@ -78,6 +106,9 @@ public class VHDLsymbolTable {
 		return null;
 	}
 
+	/**
+	 * Returns a String representation of this symbol table
+	 */
 	public String toString() {
 		if (table==null) return "empty symbol table";
 		String r = "";
