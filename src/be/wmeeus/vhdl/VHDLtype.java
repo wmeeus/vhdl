@@ -46,7 +46,7 @@ public class VHDLtype extends VHDLnode {
 		VHDLtype t = null;
 
 		// TODO try to figure out the actual data type (std_logic etc)
-		if (s.equals("std_logic")) return VHDLstd_logic.STD_LOGIC;
+		if (s.equals("std_logic") || s.equals("wire")) return VHDLstd_logic.STD_LOGIC;
 		if (s.startsWith("std_logic_vector")) {
 			String v = s.substring(16).trim();
 			if (v.startsWith("(")) v = v.substring(1);
