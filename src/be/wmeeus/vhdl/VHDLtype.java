@@ -62,4 +62,8 @@ public class VHDLtype extends VHDLnode {
 		t = new VHDLtype(s);
 		return t;
 	}
+	
+	public VHDLnode mkValue(String s) throws VHDLexception {
+		throw new VHDLexception("Method not supported in class " + getClass().getName());
+	}
 }

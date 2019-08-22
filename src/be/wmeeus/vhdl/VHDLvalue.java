@@ -13,7 +13,7 @@ public class VHDLvalue extends VHDLnode implements Comparable<VHDLvalue> {
 	Object value = null;
 	
 	/**
-	 * The data type od this value
+	 * The data type of this value
 	 */
 	VHDLtype type = null;
 
@@ -51,6 +51,11 @@ public class VHDLvalue extends VHDLnode implements Comparable<VHDLvalue> {
 	 * Static "others 0"
 	 */
 	public static final VHDLvalue OTHERS0 = new VHDLvalue("(others => '0')", VHDLstd_logic_vector.STD_LOGIC_VECTOR);
+	
+	/**
+	 * Static "others 1"
+	 */
+	public static final VHDLvalue OTHERS1 = new VHDLvalue("(others => '1')", VHDLstd_logic_vector.STD_LOGIC_VECTOR);
 	
 	/**
 	 * Static "others don't care"

@@ -110,4 +110,14 @@ public class VHDLstd_logic_vector extends VHDLtype {
 		return vi;
 	}
 	
+	public VHDLnode mkValue(String s) throws VHDLexception {
+		if (s.equals("open")) return null;
+		if (s.startsWith("all:")) {
+			String ss = s.substring(4);
+			if (ss.equals("0")) return VHDLvalue.OTHERS0;
+			if (ss.equals("1")) return VHDLvalue.OTHERS1;
+			if (ss.equals("-") || s.equals("dc")) return VHDLvalue.OTHERSDC;
+		}
+		throw new VHDLexception("std_logic_vector value: " + s + " unsupported");
+	}
 }
