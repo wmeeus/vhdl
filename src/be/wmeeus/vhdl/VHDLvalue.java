@@ -48,6 +48,11 @@ public class VHDLvalue extends VHDLnode implements Comparable<VHDLvalue> {
 	public static final VHDLvalue L1      = new VHDLvalue("'1'", VHDLstd_logic.STD_LOGIC);
 	
 	/**
+	 * Static std_logic don't care
+	 */
+	public static final VHDLvalue LDC     = new VHDLvalue("'-'", VHDLstd_logic.STD_LOGIC);
+	
+	/**
 	 * Static "others 0"
 	 */
 	public static final VHDLvalue OTHERS0 = new VHDLvalue("(others => '0')", VHDLstd_logic_vector.STD_LOGIC_VECTOR);
@@ -62,6 +67,11 @@ public class VHDLvalue extends VHDLnode implements Comparable<VHDLvalue> {
 	 */
 	public static final VHDLvalue OTHERSDC = new VHDLvalue("(others => '-')", VHDLstd_logic_vector.STD_LOGIC_VECTOR);
 
+	/**
+	 * Static "open" (type-less)
+	 */
+	public static final VHDLvalue OPEN = new VHDLvalue("open", null);
+	
 	/**
 	 * Construct a value of a given type
 	 * @param o either the type (object of class VHDLtype) or the value (object of any other class)

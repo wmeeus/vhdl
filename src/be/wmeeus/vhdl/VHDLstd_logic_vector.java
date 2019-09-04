@@ -111,7 +111,7 @@ public class VHDLstd_logic_vector extends VHDLtype {
 	}
 	
 	public VHDLnode mkValue(String s) throws VHDLexception {
-		if (s.equals("open")) return null;
+		if (s.equals("open")) return VHDLvalue.OPEN;
 		if (s.startsWith("all:")) {
 			String ss = s.substring(4);
 			if (ss.equals("0")) return VHDLvalue.OTHERS0;
