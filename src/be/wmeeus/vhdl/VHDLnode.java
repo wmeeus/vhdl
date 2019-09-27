@@ -12,7 +12,12 @@ public class VHDLnode {
 	 * Name of this node
 	 */
 	String name = null;
-	
+
+	/**
+	 * Type of this node. Optional, not all nodes have a type. 
+	 */
+	VHDLtype type = null;
+
 	/**
 	 * Comment
 	 */
@@ -26,6 +31,10 @@ public class VHDLnode {
 		return name;
 	}
 
+	public VHDLtype getType() {
+		return type;
+	}
+	
 	/**
 	 * Returns the comment
 	 * @return the comment (null for no comment)

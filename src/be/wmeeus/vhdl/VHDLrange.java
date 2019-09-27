@@ -133,4 +133,20 @@ public class VHDLrange extends VHDLnode {
 		return null;
 	}
 
+	private static VHDLnode _size = null; 
+	
+	public VHDLnode size() {
+		boolean downto = (direction.startsWith("d"));
+		
+		if (_size == null) {
+			if (downto) {
+				_size = new VHDLexpression(rangestart, "-", rangeend);
+			} else {
+				_size = new VHDLexpression(rangeend, "-", rangestart);
+			}
+			_size = new VHDLexpression(_size, "+", VHDLvalue.ONE);
+		}
+		return _size;
+	}
+
 }

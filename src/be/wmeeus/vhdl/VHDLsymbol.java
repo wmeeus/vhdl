@@ -9,11 +9,6 @@ import java.util.*;
  */
 public class VHDLsymbol extends VHDLnode {
 	/**
-	 * Symbol type
-	 */
-	VHDLtype type = null;
-	
-	/**
 	 * Return a String representation of this symbol
 	 */
 	public String toString() {
@@ -46,14 +41,6 @@ public class VHDLsymbol extends VHDLnode {
 	 */
 	public void setType(VHDLtype t) {
 		type = t;
-	}
-	
-	/**
-	 * Returns the type of this symbol
-	 * @return the type of this symbol
-	 */
-	public VHDLtype getType() {
-		return type;
 	}
 	
 	/**

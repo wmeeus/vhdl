@@ -14,12 +14,22 @@ public class VHDLcall extends VHDLnode {
 	 */
 	public ArrayList<VHDLnode> arguments = null;
 	
+	VHDLfunction function = null;
+	
 	/**
 	 * Constructs a VHDL function call
 	 * @param n name of the called function
 	 */
-	public VHDLcall(String n) {
-		name = n;
+	public VHDLcall(String n, VHDLtype t) throws VHDLexception {
+		function = VHDLfunction.mkFunction(n, t);
+	}
+	
+	/**
+	 * Constructs a VHDL function call
+	 * @param n name of the called function
+	 */
+	public VHDLcall(VHDLfunction f) throws VHDLexception {
+		function = f;
 	}
 	
 	/**
@@ -27,8 +37,8 @@ public class VHDLcall extends VHDLnode {
 	 * @param n name of the called function
 	 * @param a the argument
 	 */
-	public VHDLcall(String n, VHDLnode a) {
-		name = n;
+	public VHDLcall(String n, VHDLtype t, VHDLnode a) throws VHDLexception {
+		function = VHDLfunction.mkFunction(n, t);
 		arguments = new ArrayList<VHDLnode>();
 		arguments.add(a);
 	}
@@ -47,7 +57,7 @@ public class VHDLcall extends VHDLnode {
 	 * Returns a String representation of this function call
 	 */
 	public String toString() {
-		String r = name + "(";
+		String r = function.name + "(";
 		boolean prev = false; 
 		if (arguments!=null && !arguments.isEmpty()) {
 			for (VHDLnode a: arguments) {

@@ -17,6 +17,8 @@ public class VHDLstd_logic_vector extends VHDLtype {
 	 * A static std_logic_vector without a range
 	 */
 	public static final VHDLstd_logic_vector STD_LOGIC_VECTOR = new VHDLstd_logic_vector();
+	public static final VHDLstd_logic_vector SIGNED = new VHDLstd_logic_vector("signed", 0);
+	public static final VHDLstd_logic_vector UNSIGNED = new VHDLstd_logic_vector("unsigned", 0);
 	
 	/**
 	 * Construct a std_logic_vector without a range
@@ -52,6 +54,15 @@ public class VHDLstd_logic_vector extends VHDLtype {
 	}
 	
 	/**
+	 * Construct a std_logic_vector subtype (signed or unsigned)
+	 * @param s number of bits in the vector. The range will be (s-1) downto 0, or no range will be given if s<1
+	 */
+	public VHDLstd_logic_vector(String t, int s) {
+		name = t;
+		if (s>0) range = new VHDLrange(s);
+	}
+	
+	/**
 	 * Construct a std_logic_vector. 
 	 * @param s either the range of the vector (object of class VHDLrange) or the number of bits,
 	 *   in which case the range is (s-1) downto 0.
@@ -80,8 +91,8 @@ public class VHDLstd_logic_vector extends VHDLtype {
 	 * Returns a String representation of this std_logic_vector
 	 */
 	public String toString() {
-		if (range==null) return "std_logic_vector";
-		return "std_logic_vector(" + range + ")"; 
+		if (range==null) return ((name == null)?("std_logic_vector"):(name));
+		return ((name == null)?("std_logic_vector"):(name)) + "(" + range + ")"; 
 	}
 	
 	public VHDLnode replace(Hashtable<VHDLnode, VHDLnode> replacetable) throws VHDLexception {
@@ -119,5 +130,53 @@ public class VHDLstd_logic_vector extends VHDLtype {
 			if (ss.equals("-") || s.equals("dc")) return VHDLvalue.OTHERSDC;
 		}
 		throw new VHDLexception("std_logic_vector value: " + s + " unsupported");
+	}
+	
+	public VHDLnode mkValue(int i) throws VHDLexception {
+		// Assume conversion from uint to unsigned to std_logic_vector?
+		return new VHDLvalue(i);
+	}
+	
+	public VHDLfunction to_unsigned = new VHDLfunction("to_unsigned", UNSIGNED);
+	public VHDLfunction to_signed   = new VHDLfunction("to_signed", UNSIGNED);
+	
+	public VHDLnode convertTo(VHDLnode n) throws VHDLexception {
+		if (n==null) return null;
+		VHDLtype nt = n.getType();
+		if (nt == null) {
+			throw new VHDLexception("Cannot determine type of node " + n);
+		}
+		if (n == nt) return n;
+		
+		System.out.println("*LV::convertTo* " + n + " to " + this);
+		
+		if (nt instanceof VHDLstd_logic_vector) {
+			// TODO use typecasts between signed/unsigned/std_logic_vector + adjust range
+			// return ...
+		} else if (nt instanceof VHDLinteger) {
+			VHDLcall c = null;
+			if (name != null && name.equals("signed")) {
+				c = new VHDLcall(to_signed);
+			} else {
+				c = new VHDLcall(to_unsigned);
+			}
+			c.add(n);
+			c.add(range.size());
+			if (name == null) {
+				return new VHDLcast(STD_LOGIC_VECTOR, c);
+			}
+			return c;
+		} else {
+			// TODO use appropriate conversion function e.g. to_unsigned + typecast if necessary
+			
+			
+			
+		}
+		
+		return n;
+	}
+	
+	public boolean equals(Object o) {
+		return false;
 	}
 }

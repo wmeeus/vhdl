@@ -66,4 +66,13 @@ public class VHDLtype extends VHDLnode {
 	public VHDLnode mkValue(String s) throws VHDLexception {
 		throw new VHDLexception("Method not supported in class " + getClass().getName());
 	}
+	
+	public VHDLnode mkValue(int i) throws VHDLexception {
+		throw new VHDLexception("Method not supported in class " + getClass().getName());
+	}
+	
+	public VHDLnode convertTo(VHDLnode n) throws VHDLexception {
+		System.err.println("Method not supported in class " + getClass().getName());
+		return n;
+	}
 }

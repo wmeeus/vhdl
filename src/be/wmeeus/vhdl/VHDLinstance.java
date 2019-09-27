@@ -13,17 +13,17 @@ public class VHDLinstance extends VHDLnode {
 	 * The architecture in which this instance is included
 	 */
 	VHDLarchitecture arch = null;
-	
+
 	/**
 	 * The instantiated entity
 	 */
 	VHDLentity entity = null;
-	
+
 	/**
 	 * The mapping table of generics and ports
 	 */
 	Hashtable<String, VHDLnode> genportmap = new Hashtable<String, VHDLnode>();
-	
+
 	/**
 	 * Construct an instance
 	 * @param n the instance name
@@ -33,14 +33,26 @@ public class VHDLinstance extends VHDLnode {
 		name = n;
 		entity = e;
 	}
-	
+
 	/**
 	 * Map a generic or a port
 	 * @param s the name of the mapped generic or port
 	 * @param n the signal, port, generic, ... to map to the generic or port
 	 */
 	public void map(String s, VHDLnode n) {
-		genportmap.put(s, n);
+		VHDLsymbol p = entity.get(s);
+		VHDLnode nn = n;
+
+		try {
+			if (p != null) {
+				nn = p.getType().convertTo(n);
+			}
+			System.out.println("*map*cast* " + n + " to " + nn);
+		} catch (VHDLexception ex) {
+			ex.printStackTrace();
+		}
+
+		genportmap.put(s, nn);
 		if (!entity.has(s)) {
 			System.err.println("*Warning* map: port " + s + " not found on instance " + name + " of " + entity.name);
 			Thread.dumpStack();
@@ -103,7 +115,7 @@ public class VHDLinstance extends VHDLnode {
 		PP.up();
 		return r;
 	}
-	
+
 	/**
 	 * Find a generic or port of the instantiated entity
 	 * @param s the name of the generic or port 
@@ -113,7 +125,7 @@ public class VHDLinstance extends VHDLnode {
 	public VHDLsymbol get(String s) {
 		return entity.get(s);
 	}
-	
+
 	/**
 	 * Indicates whether the entity contains a generic or port with a particular name
 	 * @param s the name of the generic or port
@@ -130,7 +142,7 @@ public class VHDLinstance extends VHDLnode {
 	public VHDLentity getEntity() {
 		return entity;
 	}
-	
+
 	/**
 	 * Gets an entry from the generic/port map table
 	 * @param s the generic or port name
