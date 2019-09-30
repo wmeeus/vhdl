@@ -148,7 +148,7 @@ public class VHDLstd_logic_vector extends VHDLtype {
 		}
 		if (n == nt) return n;
 		
-		System.out.println("*LV::convertTo* " + n + " to " + this);
+		//System.out.println("*LV::convertTo* " + n + " to " + this);
 		
 		if (nt instanceof VHDLstd_logic_vector) {
 			// TODO use typecasts between signed/unsigned/std_logic_vector + adjust range

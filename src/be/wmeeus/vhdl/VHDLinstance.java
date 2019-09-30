@@ -47,7 +47,7 @@ public class VHDLinstance extends VHDLnode {
 			if (p != null) {
 				nn = p.getType().convertTo(n);
 			}
-			System.out.println("*map*cast* " + n + " to " + nn);
+			//System.out.println("*map*cast* " + n + " to " + nn);
 		} catch (VHDLexception ex) {
 			ex.printStackTrace();
 		}
