@@ -50,6 +50,7 @@ public class VHDLinstance extends VHDLnode {
 			//System.out.println("*map*cast* " + n + " to " + nn);
 		} catch (VHDLexception ex) {
 			ex.printStackTrace();
+			// Report and continue without a conversion, fingers crossed!
 		}
 
 		genportmap.put(s, nn);
