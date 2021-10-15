@@ -69,10 +69,9 @@ public class VHDLinstance extends VHDLnode {
 		if (arch!=null) {
 			r += "(" + arch.name + ")";
 		}
-		r += "\n";
 		PP.down();
 		String gpmap = "";
-		boolean gpempty = true;
+		boolean genericmap_empty = true;
 		if (entity.generics!=null && !entity.generics.isEmpty()) {
 			int l = entity.maxGenericLength();
 			gpmap += PP.I + "generic map(\n";
@@ -84,16 +83,16 @@ public class VHDLinstance extends VHDLnode {
 					if (prev) gpmap += ",\n";
 					prev=true;
 					gpmap += PP.I + PP.W(g.name, l) + " => " + gn;
-					gpempty = false;
+					genericmap_empty = false;
 				}				
 			}
 			if (prev) gpmap += "\n";
-			gpmap += PP.I + ")\n";
+			gpmap += PP.I + ")";
 			PP.up();
 		}
-		if (!gpempty) r += gpmap;
+		if (!genericmap_empty) r += "\n" + gpmap;
 		gpmap="";
-		gpempty=true;
+		boolean portmap_empty=true;
 		if (entity.ports!=null && !entity.ports.isEmpty()) {
 			int l = entity.maxPortLength();
 			gpmap += PP.I + "port map(\n";
@@ -105,16 +104,16 @@ public class VHDLinstance extends VHDLnode {
 					if (prev) gpmap += ",\n";
 					prev=true;
 					gpmap += PP.I + PP.W(p.name, l) + " => " + pn;
-					gpempty = false;
+					portmap_empty = false;
 				}				
 			}
 			if (prev) gpmap += "\n";
-			gpmap += PP.I + ");\n\n";
+			gpmap += PP.I + ")";
 			PP.up();
 		}
-		if (!gpempty) r += gpmap;
+		if (!portmap_empty) r += "\n" + gpmap;
 		PP.up();
-		return r;
+		return r + ";\n";
 	}
 
 	/**
